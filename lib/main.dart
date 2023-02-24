@@ -74,10 +74,10 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Upload brugbart'),
               onPressed: () {
                 // Navigate to the upload screen
-/*                 Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => UploadScreen()),
-                ); */
+                );
               },
               style: ElevatedButton.styleFrom(fixedSize: const Size(200, 70)),
             ),
@@ -86,10 +86,10 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Find brugbart'),
               onPressed: () {
                 // Navigate to the feed screen
-/*                 Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => FeedScreen()),
-                ); */
+                );
               },
             ),
           ],
@@ -98,3 +98,33 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+class UploadScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Next Screen'),
+      ),
+      body: Center(
+        child: Text('You have arrived at the next screen.'),
+      ),
+    );
+  }
+}
+
+class FeedScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Next Screen'),
+      ),
+      body: Center(
+        child: Text('You have arrived at the next screen.'),
+      ),
+    );
+  }
+}
+
+

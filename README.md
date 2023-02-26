@@ -1,6 +1,6 @@
-# test_app
+# Brugbart - et økosystem til deling af genbrugsmaterialer - vi gør Danmark grønnere
 
-A new Flutter project.
+Velkommen til vores geniale app til genbrugsmaterialer! Vores app er designet til at hjælpe dig med at dele genbrugsmaterialer med andre og samtidig spare penge og ressourcer. Det er nemt at bruge vores app - alt hvad du skal gøre er at uploade de materialer, som du gerne vil give væk, og andre brugere vil kunne se dem og kontakte dig for at aftale afhentning. Vores app er en win-win situation for både dig og miljøet, så lad os sammen gøre verden til et mere bæredygtigt sted!
 
 ## Getting Started
 

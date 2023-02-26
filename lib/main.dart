@@ -54,24 +54,22 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const Text(
+                "Velkommen til vores geniale app til genbrugsmaterialer! Vores app er designet til at hjælpe dig med at dele genbrugsmaterialer med andre og samtidig spare penge og ressourcer. Det er nemt at bruge vores app - alt hvad du skal gøre er at uploade de materialer, som du gerne vil give væk, og andre brugere vil kunne se dem og kontakte dig for at aftale afhentning. Vores app er en win-win situation for både dig og miljøet, så lad os sammen gøre verden til et mere bæredygtigt sted!",
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Colors.black87,
+                )),
+            const SizedBox(height: 20),
             ElevatedButton(
-              child: const Text('Upload brugbart'),
               onPressed: () {
                 // Navigate to the upload screen
                 Navigator.push(
@@ -80,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               style: ElevatedButton.styleFrom(fixedSize: const Size(200, 70)),
+              child: const Text('Upload brugbart'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -91,6 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(builder: (context) => const FeedScreen()),
                 );
               },
+              style: ElevatedButton.styleFrom(fixedSize: const Size(200, 70)),
             ),
           ],
         ),
@@ -105,7 +105,7 @@ class UploadScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Next Screen'),
+        title: const Text('upload Screen'),
       ),
       body: const Center(
         child: Text('You have arrived at the next screen.'),

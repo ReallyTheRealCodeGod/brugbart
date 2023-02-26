@@ -1,4 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:dio/dio.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.amber,
 
         // Define the default font family.
-        fontFamily: '',
+        fontFamily: 'Montserrat',
 
         // Define the default `TextTheme`. Use this to specify the default
         // text styling for headlines, titles, bodies of text, and more.
@@ -76,6 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(builder: (context) => const UploadScreen()),
                 );
               },
+              style: ElevatedButton.styleFrom(fixedSize: const Size(200, 70)),
             ),
             const SizedBox(height: 20),
             ElevatedButton(

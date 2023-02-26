@@ -68,23 +68,23 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-              child: Text('Upload brugbart'),
+              child: const Text('Upload brugbart'),
               onPressed: () {
                 // Navigate to the upload screen
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => UploadScreen()),
+                  MaterialPageRoute(builder: (context) => const UploadScreen()),
                 );
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
-              child: Text('Find brugbart'),
+              child: const Text('Find brugbart'),
               onPressed: () {
                 // Navigate to the feed screen
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => FeedScreen()),
+                  MaterialPageRoute(builder: (context) => const FeedScreen()),
                 );
               },
             ),
@@ -96,13 +96,14 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class UploadScreen extends StatelessWidget {
+  const UploadScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Next Screen'),
+        title: const Text('Next Screen'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('You have arrived at the next screen.'),
       ),
     );
@@ -110,17 +111,16 @@ class UploadScreen extends StatelessWidget {
 }
 
 class FeedScreen extends StatelessWidget {
+  const FeedScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Next Screen'),
+        title: const Text('Next Screen'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('You have arrived at the next screen.'),
       ),
     );
   }
 }
-
-

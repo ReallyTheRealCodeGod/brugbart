@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // Navigate to the upload screen
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const UploadScreen()),
+                  MaterialPageRoute(builder: (context) => UploadScreen()),
                 );
               },
               style: ElevatedButton.styleFrom(fixedSize: const Size(200, 70)),
@@ -82,7 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              child: const Text('Find brugbart'),
               onPressed: () {
                 // Navigate to the feed screen
                 Navigator.push(
@@ -91,6 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               style: ElevatedButton.styleFrom(fixedSize: const Size(200, 70)),
+              child: const Text('Find brugbart'),
             ),
           ],
         ),
@@ -99,7 +99,104 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class UploadScreen extends StatelessWidget {
+class UploadScreen extends StatefulWidget {
+  @override
+  _UploadScreenState createState() => _UploadScreenState();
+}
+
+class _UploadScreenState extends State<UploadScreen> {
+  // Variables for the form fields
+  late String _title;
+  String? _category;
+  String? _geotag;
+  File? _imagePath = Image.file(
+      File("C:\dev\test_app\assets\Images\dancing with red dwarf demons.png"));
+
+  // Controller for the form fields
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Upload brugbart'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Titel',
+                ),
+                validator: (value) {
+                  if (value == null) {
+                    return 'Skriv venligst en titel';
+                  }
+                  if (value.isEmpty) {
+                    return 'Skriv venligst en titel';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _title = value!,
+              ),
+              SizedBox(height: 20),
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Kategori',
+                ),
+                validator: (value) {
+                  if (value == null) {
+                    return 'Skriv venligst en kategori';
+                  }
+                  if (value.isEmpty) {
+                    return 'Skriv venligst en kategori';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _category = value,
+              ),
+              SizedBox(height: 20),
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Geotag',
+                ),
+                validator: (value) {
+                  if (value == null) {
+                    return 'Skriv venligst en geotag';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _geotag = value,
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                child: Text('Vælg billede'),
+                onPressed: () {
+                  // Open the image picker
+                  getImage();
+                },
+              ),
+              SizedBox(height: 20),
+              showImage(),
+              SizedBox(height: 20),
+              ElevatedButton(
+                child: Text('Upload'),
+                onPressed: () {
+                  showImage();
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+/* class UploadScreen extends StatelessWidget {
   const UploadScreen({super.key});
   @override
   Widget build(BuildContext context) {
@@ -109,8 +206,32 @@ class UploadScreen extends StatelessWidget {
       ),
       body: const Center(
         child: Text('You have arrived at the next screen.'),
+
+//button, with a plus sign, t
+
       ),
     );
+  }
+} */
+
+// Function to get the image from the device
+  Future getImage() async {
+    final XFile? pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        _imagePath = File(pickedImage.path);
+      });
+    }
+  }
+
+// Function to display the selected image
+  Widget showImage() {
+    if (_imagePath != null) {
+      return Image.file(_imagePath!, fit: BoxFit.cover);
+    } else {
+      return Container();
+    }
   }
 }
 

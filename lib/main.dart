@@ -242,7 +242,7 @@ class _UploadScreenState extends State<UploadScreen> {
 }
 
 // class FeedScreen extends StatefulWidget {
-// class FeedScreen extends StatelessWidget {
+class FeedScreen extends StatelessWidget {
 // class FeedScreen extends StatefulWidget {
 //   const FeedScreen({super.key});
 //   @override
@@ -264,4 +264,4 @@ class _UploadScreenState extends State<UploadScreen> {
 
 // class _FeedscreenState extends State<FeedScreen> {
 
-// }
+}

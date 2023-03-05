@@ -109,10 +109,9 @@ class _UploadScreenState extends State<UploadScreen> {
   late String _title;
   String? _category;
   String? _geotag;
-  Image _imagePath = Image.file(
-  File? _imagePath = Image.file(
-  Image _imagePath = Image.file(
-      File("C:\dev\test_app\assets\Images\dancing with red dwarf demons.png"));
+  File? _imagePath = Image.file(File(
+          "C:\dev\test_app\assets\Images\dancing with red dwarf demons.png"))
+      as File?;
 
   // Controller for the form fields
   final _formKey = GlobalKey<FormState>();
@@ -222,9 +221,7 @@ class _UploadScreenState extends State<UploadScreen> {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       setState(() {
-        _imagePath = File(pickedImage.path) as Image;
         _imagePath = File(pickedImage.path);
-        _imagePath = File(pickedImage.path) as Image;
       });
     }
   }
@@ -232,36 +229,24 @@ class _UploadScreenState extends State<UploadScreen> {
 // Function to display the selected image
   Widget showImage() {
     if (_imagePath != null) {
-      return Image.file(_imagePath as File, fit: BoxFit.cover);
       return Image.file(_imagePath!, fit: BoxFit.cover);
-      return Image.file(_imagePath as File, fit: BoxFit.cover);
     } else {
       return Container();
     }
   }
 }
 
-// class FeedScreen extends StatefulWidget {
 class FeedScreen extends StatelessWidget {
-// class FeedScreen extends StatefulWidget {
-//   const FeedScreen({super.key});
-//   @override
-//   _FeedScreenState createState() => _FeedScreenState
-  
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Next Screen'),
-//       ),
-//       body: const Center(
-//         child: Text('You have arrived at the next screen.'),
-//       ),
-//     );
-//   }
-//   _FeedScreenState createState() => _FeedScreenState
-  
-// }
-
-// class _FeedscreenState extends State<FeedScreen> {
-
+  const FeedScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Next Screen'),
+      ),
+      body: const Center(
+        child: Text('You have arrived at the next screen.'),
+      ),
+    );
+  }
 }

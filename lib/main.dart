@@ -1,7 +1,10 @@
 import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:dio/dio.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -92,6 +95,14 @@ class _MyHomePageState extends State<MyHomePage> {
               style: ElevatedButton.styleFrom(fixedSize: const Size(200, 70)),
               child: const Text('Find brugbart'),
             ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                // Navigate to the feed screen
+              },
+              style: ElevatedButton.styleFrom(fixedSize: const Size(200, 70)),
+              child: const Text('gem billede test'),
+            ),
           ],
         ),
       ),
@@ -104,14 +115,14 @@ class UploadScreen extends StatefulWidget {
   _UploadScreenState createState() => _UploadScreenState();
 }
 
+final ScrollController _firstController = ScrollController();
+
 class _UploadScreenState extends State<UploadScreen> {
   // Variables for the form fields
   late String _title;
   String? _category;
   String? _geotag;
-  File? _imagePath = Image.file(
-      File("C:\dev\test_app\assets\Images\dancing with red dwarf demons.png"));
-
+  File? _imagePath;
   // Controller for the form fields
   final _formKey = GlobalKey<FormState>();
 
@@ -123,73 +134,84 @@ class _UploadScreenState extends State<UploadScreen> {
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Titel',
-                ),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Skriv venligst en titel';
-                  }
-                  if (value.isEmpty) {
-                    return 'Skriv venligst en titel';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _title = value!,
+        child: Scrollbar(
+          thumbVisibility: true,
+          controller: _firstController,
+          child: SingleChildScrollView(
+            controller: _firstController,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Titel',
+                    ),
+                    validator: (value) {
+                      if (value?.isEmpty ?? true) {
+                        return 'Skriv venligst en titel';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => _title = value!,
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Kategori',
+                    ),
+                    validator: (value) {
+                      if (value?.isEmpty ?? true) {
+                        return 'Skriv venligst en kategori';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => _category = value,
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Geotag',
+                    ),
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Skriv venligst en geotag';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => _geotag = value,
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    child: Text('Vælg billede'),
+                    onPressed: () {
+                      /*              String url = */
+                      /*                       'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fcaucasian-smooth-skinned-teen-grimacing-hands-next-to-face-funny-white-long-sleeved-t-shirt-smiles-waving-51910820.jpg&f=1&nofb=1&ipt=5c9ff8f33a596211c84a60710642541145de2d4cc4dd0d3a8ff60323462b2792&ipo=images';
+                    saveImage(url); */
+                      getImage();
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    child: Text('tag nyt billede'),
+                    onPressed: () {
+                      /*              String url = */
+                      /*                       'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fcaucasian-smooth-skinned-teen-grimacing-hands-next-to-face-funny-white-long-sleeved-t-shirt-smiles-waving-51910820.jpg&f=1&nofb=1&ipt=5c9ff8f33a596211c84a60710642541145de2d4cc4dd0d3a8ff60323462b2792&ipo=images';
+                    saveImage(url); */
+                      takePhoto();
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  showImage(),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    child: Text('Upload'),
+                    onPressed: () {},
+                  ),
+                ],
               ),
-              SizedBox(height: 20),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Kategori',
-                ),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Skriv venligst en kategori';
-                  }
-                  if (value.isEmpty) {
-                    return 'Skriv venligst en kategori';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _category = value,
-              ),
-              SizedBox(height: 20),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Geotag',
-                ),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Skriv venligst en geotag';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _geotag = value,
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                child: Text('Vælg billede'),
-                onPressed: () {
-                  // Open the image picker
-                  getImage();
-                },
-              ),
-              SizedBox(height: 20),
-              showImage(),
-              SizedBox(height: 20),
-              ElevatedButton(
-                child: Text('Upload'),
-                onPressed: () {
-                  showImage();
-                },
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -214,6 +236,18 @@ class _UploadScreenState extends State<UploadScreen> {
   }
 } */
 
+  Future<void> saveImage(String imageUrl) async {
+    // Get the bytes of the image
+    Uint8List bytes = await getBytesFromUrl(imageUrl);
+    // Save the image to the photo gallery
+    await ImageGallerySaver.saveImage(bytes);
+  }
+
+  Future<Uint8List> getBytesFromUrl(String url) async {
+    http.Response response = await http.get(Uri.parse(url));
+    return response.bodyBytes;
+  }
+
 // Function to get the image from the device
   Future getImage() async {
     final XFile? pickedImage =
@@ -221,6 +255,19 @@ class _UploadScreenState extends State<UploadScreen> {
     if (pickedImage != null) {
       setState(() {
         _imagePath = File(pickedImage.path);
+      });
+    }
+  }
+
+  /// A method that opens the camera app to take a photo, and sets the resulting image as the current image path.
+  /// If a photo is successfully taken and saved, the [setState] method is called to update the UI with the new image.
+  /// If the user cancels or encounters an error, the [takenImage] variable will be null and no changes to the UI will be made.
+  Future takePhoto() async {
+    final XFile? takenImage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+    if (takenImage != null) {
+      setState(() {
+        _imagePath = File(takenImage.path);
       });
     }
   }

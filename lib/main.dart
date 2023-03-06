@@ -1,7 +1,10 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
+import 'dart:convert';
 
 void main() {
   runApp(const MyApp());
@@ -86,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // Navigate to the feed screen
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const FeedScreen()),
+                  MaterialPageRoute(builder: (context) => FeedScreen()),
                 );
               },
               style: ElevatedButton.styleFrom(fixedSize: const Size(200, 70)),
@@ -236,16 +239,70 @@ class _UploadScreenState extends State<UploadScreen> {
   }
 }
 
-class FeedScreen extends StatelessWidget {
-  const FeedScreen({super.key});
+// class FeedScreen extends StatelessWidget {
+//   const FeedScreen({super.key});
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Next Screen'),
+//       ),
+//       body: const Center(
+//         child: Text('You have arrived at the next screen.'),
+//       ),
+//     );
+//   }
+// }
+
+class FeedScreen extends StatefulWidget {
+  @override
+  _FeedScreenState createState() => _FeedScreenState();
+}
+
+class _FeedScreenState extends State<FeedScreen> {
+  List<String> _imageUrls = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadImages();
+  }
+
+  Future<void> _loadImages() async {
+    try {
+      final response = await http.get(Uri.parse('https://example.com/images'));
+      if (response.statusCode == 200) {
+        final List<String> imageUrls =
+            List<String>.from(jsonDecode(response.body));
+        setState(() {
+          _imageUrls = imageUrls;
+        });
+      } else {
+        print('Error loading images: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error loading images: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Next Screen'),
+        title: Text('Feed'),
       ),
-      body: const Center(
-        child: Text('You have arrived at the next screen.'),
+      body: ListView.builder(
+        itemCount: _imageUrls.length,
+        itemBuilder: (BuildContext context, int index) {
+          final imageUrl = _imageUrls[index];
+          final backgroundColor =
+              Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0)
+                  .withOpacity(1.0);
+          return Container(
+            color: backgroundColor,
+            child: Image.network(imageUrl),
+          );
+        },
       ),
     );
   }

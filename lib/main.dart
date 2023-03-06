@@ -300,7 +300,21 @@ class _FeedScreenState extends State<FeedScreen> {
                   .withOpacity(1.0);
           return Container(
             color: backgroundColor,
-            child: Image.network(imageUrl),
+            child: imageUrl.isNotEmpty
+                ? Image.network(
+                    imageUrl,
+                    errorBuilder: (BuildContext context, Object exception,
+                        StackTrace? stackTrace) {
+                      return Placeholder(
+                        fallbackHeight: 200.0,
+                        fallbackWidth: double.infinity,
+                      );
+                    },
+                  )
+                : Placeholder(
+                    fallbackHeight: 200.0,
+                    fallbackWidth: double.infinity,
+                  ),
           );
         },
       ),

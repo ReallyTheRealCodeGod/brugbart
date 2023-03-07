@@ -136,6 +136,15 @@ class _UploadScreenState extends State<UploadScreen> {
   // Controller for the form fields
   final _formKey = GlobalKey<FormState>();
 
+  // Uploads the image to Firebase Storage
+  Future<String> uploadImageToFirebaseStorage(String filePath) async {
+    final ref =
+        FirebaseStorage.instance.ref().child('images').child('filename.jpg');
+    final uploadTask = ref.putFile(File(filePath));
+    final snapshot = await uploadTask.whenComplete(() {});
+    return await snapshot.ref.getDownloadURL();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -233,9 +242,9 @@ class _UploadScreenState extends State<UploadScreen> {
                           },
                           barrierDismissible: false,
                         );
-                        // Upload the image to Firestore
+                        // Upload the image to Firebase Storage
                         String? imageUrl =
-                            await uploadImageToFirestore(_imagePath!);
+                            await uploadImageToFirebaseStorage(_imagePath!);
                         // Create a Firestore document with the form data and the uploaded image URL
                         await FirebaseFirestore.instance
                             .collection('brugbart')

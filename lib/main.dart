@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -218,7 +218,36 @@ class _UploadScreenState extends State<UploadScreen> {
                   SizedBox(height: 20),
                   ElevatedButton(
                     child: const Text('Upload'),
-                    onPressed: () {},
+                    onPressed: () async {
+                      // Validate the form fields
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        // Show a progress indicator while uploading
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Center(child: CircularProgressIndicator());
+                          },
+                          barrierDismissible: false,
+                        );
+                        // Upload the image to Firestore
+                        String? imageUrl =
+                            await uploadImageToFirestore(_imagePath!);
+                        // Create a Firestore document with the form data and the uploaded image URL
+                        await FirebaseFirestore.instance
+                            .collection('brugbart')
+                            .add({
+                          'title': _title,
+                          'category': _category,
+                          'geotag': _geotag,
+                          'imageUrl': imageUrl,
+                        });
+                        // Close the progress indicator dialog
+                        Navigator.pop(context);
+                        // Navigate back to the previous screen
+                        Navigator.pop(context);
+                      }
+                    },
                   ),
                 ],
               ),
@@ -314,6 +343,7 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
   List<String> _imageUrls = [];
 
   @override
@@ -324,24 +354,14 @@ class _FeedScreenState extends State<FeedScreen> {
 
   Future<void> _loadImages() async {
     try {
-      final response = await http.get(Uri.parse('https://example.com/images'));
-      if (response.statusCode == 200) {
-        final List<String> imageUrls =
-            List<String>.from(jsonDecode(response.body));
-        setState(() {
-          _imageUrls = imageUrls;
-        });
-      } else {
-        print('Error loading images: ${response.statusCode}');
-      }
+      final snapshot = await _db.collection('images').get();
+      final List<String> imageUrls =
+          snapshot.docs.map((doc) => doc['url'].toString()).toList();
+      setState(() {
+        _imageUrls = imageUrls;
+      });
     } catch (e) {
       print('Error loading images: $e');
-    } finally {
-      if (_imageUrls.isEmpty) {
-        setState(() {
-          _imageUrls = List.generate(20, (_) => '');
-        });
-      }
     }
   }
 

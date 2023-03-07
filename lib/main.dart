@@ -138,8 +138,10 @@ class _UploadScreenState extends State<UploadScreen> {
 
   // Uploads the image to Firebase Storage
   Future<String> uploadImageToFirebaseStorage(String filePath) async {
-    final ref =
-        FirebaseStorage.instance.ref().child('images').child('filename.jpg');
+    final ref = firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('images')
+        .child('filename.jpg');
     final uploadTask = ref.putFile(File(filePath));
     final snapshot = await uploadTask.whenComplete(() {});
     return await snapshot.ref.getDownloadURL();
@@ -243,8 +245,8 @@ class _UploadScreenState extends State<UploadScreen> {
                           barrierDismissible: false,
                         );
                         // Upload the image to Firebase Storage
-                        String? imageUrl =
-                            await uploadImageToFirebaseStorage(_imagePath!);
+                        String? imageUrl = await uploadImageToFirebaseStorage(
+                            _imagePath! as String);
                         // Create a Firestore document with the form data and the uploaded image URL
                         await FirebaseFirestore.instance
                             .collection('brugbart')

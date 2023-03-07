@@ -106,14 +106,6 @@ class _MyHomePageState extends State<MyHomePage> {
               style: ElevatedButton.styleFrom(fixedSize: const Size(200, 70)),
               child: const Text('Find brugbart'),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                // Navigate to the feed screen
-              },
-              style: ElevatedButton.styleFrom(fixedSize: const Size(200, 70)),
-              child: const Text('gem billede test'),
-            ),
           ],
         ),
       ),
@@ -190,19 +182,6 @@ class _UploadScreenState extends State<UploadScreen> {
                       return null;
                     },
                     onSaved: (value) => _title = value!,
-                  ),
-                  SizedBox(height: 20),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      hintText: 'Kategori',
-                    ),
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) {
-                        return 'Skriv venligst en kategori';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) => _category = value,
                   ),
                   SizedBox(height: 20),
                   TextFormField(

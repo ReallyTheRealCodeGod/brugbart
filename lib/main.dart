@@ -13,10 +13,10 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
+/*   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+ */
   runApp(const MyApp());
 }
 
@@ -130,9 +130,16 @@ final ScrollController _firstController = ScrollController();
 class _UploadScreenState extends State<UploadScreen> {
   // Variables for the form fields
   late String _title;
-  String? _category;
+  String? _category = 'Træ';
   String? _geotag;
   File? _imagePath;
+
+  final List<String> _categories = [
+    'Træ',
+    'Metal',
+    'Andet',
+  ];
+
   // Controller for the form fields
   final _formKey = GlobalKey<FormState>();
 
@@ -154,6 +161,23 @@ class _UploadScreenState extends State<UploadScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  DropdownButtonFormField<String?>(
+                    value: _category,
+                    items: _categories.map((String category) {
+                      return DropdownMenuItem<String>(
+                        value: category,
+                        child: Text(category),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _category = newValue;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Category',
+                    ),
+                  ),
                   TextFormField(
                     decoration: InputDecoration(
                       hintText: 'Titel',

@@ -1,0 +1,147 @@
+[33mcommit 7e5e92f6fd693f93d7990ebbd161892f6abf2b97[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Merge: b82561b 83b83d8
+Author: sprakfyrste <annesvebergre@gmail.com>
+Date:   Tue Mar 7 11:17:28 2023 +0100
+
+    Merge branch 'main' of https://github.com/ReallyTheRealCodeGod/brugbart
+
+[33mcommit b82561b6145138a512506bf70ef2665588e6085d[m
+Author: sprakfyrste <annesvebergre@gmail.com>
+Date:   Tue Mar 7 09:52:56 2023 +0100
+
+    fixed podfile-errors and added firebase packages
+
+[33mcommit 83b83d8cfddc90c5d9da677202658dc812e331b1[m
+Author: ReallyTheRealCodeGod <lil.jdean@gmail.com>
+Date:   Tue Mar 7 09:13:02 2023 +0100
+
+    test too see if project is connected to git profile
+
+[33mcommit a3ddfd505ff607d25f2df02e6dbed37a452bd963[m
+Author: Peter Bandsholm <peter@bandsholm.com>
+Date:   Tue Mar 7 08:56:59 2023 +0100
+
+    fixed bugs, related to last merge, fixed the pubspec.lock file issue, by deleting and regenereating a new pubspec.lock file, the app is running fine now
+
+[33mcommit d3461a2b3373900d4cfedf75420edbe726429be3[m
+Merge: f645235 f230d72
+Author: Peter Bandsholm <peter@bandsholm.com>
+Date:   Mon Mar 6 19:46:40 2023 +0100
+
+    Merge branch 'main' of https://github.com/ReallyTheRealCodeGod/brugbart
+
+[33mcommit f645235bb5b427896903ed2ad01ce067d1246564[m
+Author: Peter Bandsholm <peter@bandsholm.com>
+Date:   Mon Mar 6 19:33:13 2023 +0100
+
+    added methods and imports that handleds image retrieval from the device
+
+[33mcommit 300e513232598eafc841e3d13f6cf7f57d0f6afc[m
+Author: sprakfyrste <annesvebergre@gmail.com>
+Date:   Mon Mar 6 07:57:12 2023 +0100
+
+    Added placeholder if no server
+
+[33mcommit f230d72ffc8cd1f058d85207437e29a437029f2d[m
+Author: sprakfyrste <annesvebergre@gmail.com>
+Date:   Mon Mar 6 07:49:24 2023 +0100
+
+    Defined a new _FeedScreenState
+
+[33mcommit 15e25ecf2c40d2dba4d5979846a11f731db7373e[m
+Author: sprakfyrste <annesvebergre@gmail.com>
+Date:   Sun Mar 5 22:52:22 2023 +0100
+
+    added podfile
+
+[33mcommit 90e1eb9846d641ab83088ecea54c866e6648a95c[m
+Author: sprakfyrste <annesvebergre@gmail.com>
+Date:   Sun Mar 5 22:30:28 2023 +0100
+
+    deleted old changes, running open ios/Runner.xcworkspace
+
+[33mcommit b65931d7714b2eede31ea696e674a7c870aa0d03[m
+Author: sprakfyrste <annesvebergre@gmail.com>
+Date:   Sun Mar 5 22:29:06 2023 +0100
+
+    added xcode statements
+
+[33mcommit 4a0e4c26ef7f1f9f8f8e10d816c1baa5d6c692f8[m
+Author: sprakfyrste <annesvebergre@gmail.com>
+Date:   Sun Mar 5 22:27:19 2023 +0100
+
+    modidified _feedScreenstate
+
+[33mcommit 8a53761fd0f21c9663310f895c0c762cf183919a[m
+Author: Peter Bandsholm <peter@bandsholm.com>
+Date:   Tue Feb 28 18:50:30 2023 +0100
+
+    extended the upload page, but the image needs to be displayed
+
+[33mcommit 812f3371004eb17ae07db34b94aa56dea5d3e20b[m
+Author: Peter Bandsholm <peter@bandsholm.com>
+Date:   Sun Feb 26 13:42:12 2023 +0100
+
+    wrote a new readme, that explains the motivations and idea behind the applikation
+
+[33mcommit 4785baccc92a94a2d3c4168f3629f8b1905701e4[m
+Author: Peter Bandsholm <peter@bandsholm.com>
+Date:   Sun Feb 26 13:40:37 2023 +0100
+
+    wrote a new readme, that explains the motivations and idea behind the applikation
+
+[33mcommit 0447b6e2db48a9da484dbcf2256d8c6b927040a7[m
+Author: Peter Bandsholm <peter@bandsholm.com>
+Date:   Sun Feb 26 13:21:53 2023 +0100
+
+    added text to the intro screen, it needs to be refactored and changed, how the text appears. The text right now, is just a placeholder
+
+[33mcommit 3883beff80008a6606a7e782ff34e16dab1b5d02[m
+Merge: 997ec59 5730946
+Author: Peter Bandsholm <peter@bandsholm.com>
+Date:   Sun Feb 26 12:36:05 2023 +0100
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+[33mcommit 997ec59562f906f7fe973311763d9b4373beed6d[m
+Author: Peter Bandsholm <peter@bandsholm.com>
+Date:   Sun Feb 26 11:20:57 2023 +0100
+
+    fixed problems and bugs
+
+[33mcommit 573094608725cf1d65dc093e9bbd0862afaea211[m
+Merge: d16c96c 8d374cf
+Author: Peter Bandsholm <NEXT6859@edu.nextkbh.dk>
+Date:   Fri Feb 24 16:47:58 2023 +0100
+
+    Merge branch 'main' of https://github.com/ReallyTheRealCodeGod/brugbart
+
+[33mcommit d16c96cdc609a90f30c901a8b03ab480a7f68b6e[m
+Author: Peter Bandsholm <NEXT6859@edu.nextkbh.dk>
+Date:   Fri Feb 24 16:47:05 2023 +0100
+
+    Added dependency in pubspec.yaml
+
+[33mcommit 8d374cfad0ec92c5c3dd5e621f6137cceca58ea2[m
+Author: Peter Bandsholm <peter@bandsholm.com>
+Date:   Fri Feb 24 16:34:01 2023 +0100
+
+    added navigation functionality, to the two pages. atm its just placeholders for upcoming functionality
+
+[33mcommit da1e1f5d1e28c67e1395a716789351447b36f2c4[m
+Author: Peter Bandsholm <NEXT6859@edu.nextkbh.dk>
+Date:   Fri Feb 24 16:06:48 2023 +0100
+
+    Fixed colour issues and added import statements
+
+[33mcommit 59fc444d3bd83f04d902d41004030386c277dcfb[m
+Author: Peter Bandsholm <peter@bandsholm.com>
+Date:   Fri Feb 24 15:42:27 2023 +0100
+
+    added two buttons on the homepage
+
+[33mcommit a79a598aa845a1d2a90a8d67e132166d04972aea[m
+Author: Peter Bandsholm <peter@bandsholm.com>
+Date:   Fri Feb 24 15:20:49 2023 +0100
+
+    first commit

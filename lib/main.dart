@@ -14,10 +14,10 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
+/*   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+ */
   runApp(const MyApp());
 }
 
@@ -106,14 +106,6 @@ class _MyHomePageState extends State<MyHomePage> {
               style: ElevatedButton.styleFrom(fixedSize: const Size(200, 70)),
               child: const Text('Find brugbart'),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                // Navigate to the feed screen
-              },
-              style: ElevatedButton.styleFrom(fixedSize: const Size(200, 70)),
-              child: const Text('gem billede test'),
-            ),
           ],
         ),
       ),
@@ -131,9 +123,16 @@ final ScrollController _firstController = ScrollController();
 class _UploadScreenState extends State<UploadScreen> {
   // Variables for the form fields
   late String _title;
-  String? _category;
+  String? _category = 'Træ';
   String? _geotag;
   File? _imagePath;
+
+  final List<String> _categories = [
+    'Træ',
+    'Metal',
+    'Andet',
+  ];
+
   // Controller for the form fields
   final _formKey = GlobalKey<FormState>();
 
@@ -155,6 +154,23 @@ class _UploadScreenState extends State<UploadScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  DropdownButtonFormField<String?>(
+                    value: _category,
+                    items: _categories.map((String category) {
+                      return DropdownMenuItem<String>(
+                        value: category,
+                        child: Text(category),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _category = newValue;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Category',
+                    ),
+                  ),
                   TextFormField(
                     decoration: InputDecoration(
                       hintText: 'Titel',
@@ -166,19 +182,6 @@ class _UploadScreenState extends State<UploadScreen> {
                       return null;
                     },
                     onSaved: (value) => _title = value!,
-                  ),
-                  SizedBox(height: 20),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      hintText: 'Kategori',
-                    ),
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) {
-                        return 'Skriv venligst en kategori';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) => _category = value,
                   ),
                   SizedBox(height: 20),
                   TextFormField(

@@ -44,7 +44,7 @@ dependencies:
   image_picker: ^0.8.6+3
   dio: ^5.0.1
   image_gallery_saver: ^1.7.1
-  google_fonts:
+  google_fonts: ^4.0.3
 
 dev_dependencies:
   flutter_test:

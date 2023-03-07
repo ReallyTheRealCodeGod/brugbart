@@ -209,7 +209,7 @@ class _UploadScreenState extends State<UploadScreen> {
                   showImage(),
                   SizedBox(height: 20),
                   ElevatedButton(
-                    child: Text('Upload'),
+                    child: const Text('Upload'),
                     onPressed: () {},
                   ),
                 ],

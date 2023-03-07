@@ -5,8 +5,14 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 }
 
@@ -65,12 +71,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
+            /* const Text(
                 "Velkommen til vores geniale app til genbrugsmaterialer! Vores app er designet til at hjælpe dig med at dele genbrugsmaterialer med andre og samtidig spare penge og ressourcer. Det er nemt at bruge vores app - alt hvad du skal gøre er at uploade de materialer, som du gerne vil give væk, og andre brugere vil kunne se dem og kontakte dig for at aftale afhentning. Vores app er en win-win situation for både dig og miljøet, så lad os sammen gøre verden til et mere bæredygtigt sted!",
                 style: TextStyle(
                   fontSize: 10,
                   color: Colors.black87,
-                )),
+                )), */
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
@@ -282,6 +288,12 @@ class _FeedScreenState extends State<FeedScreen> {
       }
     } catch (e) {
       print('Error loading images: $e');
+    } finally {
+      if (_imageUrls.isEmpty) {
+        setState(() {
+          _imageUrls = List.generate(20, (_) => '');
+        });
+      }
     }
   }
 
@@ -299,22 +311,28 @@ class _FeedScreenState extends State<FeedScreen> {
               Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0)
                   .withOpacity(1.0);
           return Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
             color: backgroundColor,
-            child: imageUrl.isNotEmpty
-                ? Image.network(
-                    imageUrl,
-                    errorBuilder: (BuildContext context, Object exception,
-                        StackTrace? stackTrace) {
-                      return Placeholder(
-                        fallbackHeight: 200.0,
-                        fallbackWidth: double.infinity,
-                      );
-                    },
-                  )
-                : Placeholder(
-                    fallbackHeight: 200.0,
-                    fallbackWidth: double.infinity,
-                  ),
+            child: SizedBox(
+              height: 600, // height of an Instagram photo
+              width: 600, // width of an Instagram photo
+              child: imageUrl != null && imageUrl.isNotEmpty
+                  ? Image.network(
+                      imageUrl,
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                        return Placeholder(
+                          fallbackHeight: 600.0,
+                          fallbackWidth: 600.0,
+                        );
+                      },
+                    )
+                  : Placeholder(
+                      fallbackHeight: 600.0,
+                      fallbackWidth: 600.0,
+                    ),
+            ),
           );
         },
       ),

@@ -11,13 +11,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:path/path.dart' as path;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-/*   await Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
- */
+
   runApp(const MyApp());
 }
 
@@ -137,12 +138,15 @@ class _UploadScreenState extends State<UploadScreen> {
   final _formKey = GlobalKey<FormState>();
 
   // Uploads the image to Firebase Storage
-  Future<String> uploadImageToFirebaseStorage(String filePath) async {
+  Future<String> uploadImageToFirebaseStorage() async {
+    if (_imagePath == null) {
+      throw Exception('No image selected');
+    }
+    final fileName = path.basename(_imagePath!.path);
     final ref = firebase_storage.FirebaseStorage.instance
         .ref()
-        .child('images')
-        .child('filename.jpg');
-    final uploadTask = ref.putFile(File(filePath));
+        .child('images/$fileName');
+    final uploadTask = ref.putFile(_imagePath!);
     final snapshot = await uploadTask.whenComplete(() {});
     return await snapshot.ref.getDownloadURL();
   }
@@ -244,18 +248,19 @@ class _UploadScreenState extends State<UploadScreen> {
                           },
                           barrierDismissible: false,
                         );
-                        // Upload the image to Firebase Storage
-                        String? imageUrl = await uploadImageToFirebaseStorage(
-                            _imagePath! as String);
+                        // Call the uploadImageToFirebaseStorage
+                        String? imageUrl = await uploadImageToFirebaseStorage();
                         // Create a Firestore document with the form data and the uploaded image URL
-                        await FirebaseFirestore.instance
-                            .collection('brugbart')
-                            .add({
-                          'title': _title,
-                          'category': _category,
-                          'geotag': _geotag,
-                          'imageUrl': imageUrl,
-                        });
+                        if (imageUrl != null) {
+                          await FirebaseFirestore.instance
+                              .collection('brugbart')
+                              .add({
+                            'title': _title,
+                            'category': _category,
+                            'geotag': _geotag,
+                            'imageUrl': imageUrl,
+                          });
+                        }
                         // Close the progress indicator dialog
                         Navigator.pop(context);
                         // Navigate back to the previous screen
@@ -358,24 +363,24 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedScreen> {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  List<String> _imageUrls = [];
+  List<Map<String, dynamic>> _posts = [];
 
   @override
   void initState() {
     super.initState();
-    _loadImages();
+    _loadPosts();
   }
 
-  Future<void> _loadImages() async {
+  Future<void> _loadPosts() async {
     try {
-      final snapshot = await _db.collection('images').get();
-      final List<String> imageUrls =
-          snapshot.docs.map((doc) => doc['url'].toString()).toList();
+      final snapshot = await _db.collection('brugbart').get();
+      final List<Map<String, dynamic>> posts =
+          snapshot.docs.map((doc) => doc.data()).toList();
       setState(() {
-        _imageUrls = imageUrls;
+        _posts = posts;
       });
     } catch (e) {
-      print('Error loading images: $e');
+      print('Error loading posts: $e');
     }
   }
 
@@ -383,40 +388,97 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Feed'),
+        title: const Text('Feed'),
       ),
       body: ListView.builder(
-        itemCount: _imageUrls.length,
+        itemCount: _posts.length,
         itemBuilder: (BuildContext context, int index) {
-          final imageUrl = _imageUrls[index];
+          final post = _posts[index];
           final backgroundColor =
               Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0)
-                  .withOpacity(1.0);
+                  .withOpacity(0.8);
           return Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            color: backgroundColor,
-            child: SizedBox(
-              height: 600, // height of an Instagram photo
-              width: 600, // width of an Instagram photo
-              child: imageUrl != null && imageUrl.isNotEmpty
-                  ? Image.network(
-                      imageUrl,
-                      errorBuilder: (BuildContext context, Object exception,
-                          StackTrace? stackTrace) {
-                        return Placeholder(
-                          fallbackHeight: 600.0,
-                          fallbackWidth: 600.0,
-                        );
-                      },
-                    )
-                  : Placeholder(
-                      fallbackHeight: 600.0,
-                      fallbackWidth: 600.0,
-                    ),
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _buildTitle(post['title'] ?? ''),
+                const SizedBox(height: 8),
+                _buildGeotag(post['geotag'] ?? ''),
+                const SizedBox(height: 16),
+                AspectRatio(
+                  aspectRatio: 1,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: post['imageURL'] == null
+                        ? Placeholder()
+                        : Image.network(
+                            post['imageURL'] ?? '',
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                _buildCategory(post['category'] ?? ''),
+                const SizedBox(height: 16),
+              ],
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildTitle(String? title) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Text(
+        title ?? '',
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+          fontFamily: 'Montserrat',
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGeotag(String? geotag) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Icon(
+          Icons.location_on,
+          color: Colors.redAccent,
+          size: 16,
+        ),
+        const SizedBox(width: 4),
+        Text(
+          geotag ?? '',
+          style: const TextStyle(
+            fontSize: 16,
+            fontFamily: 'Montserrat',
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCategory(String? category) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Text(
+        category ?? '',
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontSize: 16,
+          fontFamily: 'Montserrat',
+          color: Colors.white,
+        ),
       ),
     );
   }

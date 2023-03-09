@@ -70,43 +70,82 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      backgroundColor: Color.fromARGB(255, 251, 245, 236),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-                "Velkommen til vores geniale app til genbrugsmaterialer!",
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Colors.black87,
-                )),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to the upload screen
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => UploadScreen()),
-                );
-              },
-              style: ElevatedButton.styleFrom(fixedSize: const Size(200, 70)),
-              child: const Text('Upload brugbart'),
+            const SizedBox(height: 60),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: ElevatedButton(
+                onPressed: () {
+                  // Navigate to the upload screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => UploadScreen()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  fixedSize: const Size.fromHeight(70),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  backgroundColor: Color.fromARGB(255, 250, 226, 105),
+                  elevation: 0,
+                ),
+                child: const SizedBox(
+                  width: double.infinity,
+                  child: Center(
+                    child: Text(
+                      'Upload brugbart',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontFamily: 'Avenir',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to the feed screen
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FeedScreen()),
-                );
-              },
-              style: ElevatedButton.styleFrom(fixedSize: const Size(200, 70)),
-              child: const Text('Find brugbart'),
+            const SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: ElevatedButton(
+                onPressed: () {
+                  // Navigate to the feed screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FeedScreen()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  fixedSize: const Size.fromHeight(70),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  backgroundColor: Color.fromARGB(255, 255, 163, 65),
+                  elevation: 0,
+                ),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Center(
+                    child: Text(
+                      'Find brugbart',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontFamily: 'Avenir',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
+            const SizedBox(height: 50),
           ],
         ),
       ),
@@ -155,7 +194,14 @@ class _UploadScreenState extends State<UploadScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Upload brugbart'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Text('Upload brugbart',
+            style: TextStyle(
+              color: Colors.black,
+              fontFamily: 'Avenir',
+              fontWeight: FontWeight.w900,
+            )),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -174,7 +220,13 @@ class _UploadScreenState extends State<UploadScreen> {
                     items: _categories.map((String category) {
                       return DropdownMenuItem<String>(
                         value: category,
-                        child: Text(category),
+                        child: Text(category,
+                            style: TextStyle(
+                              fontFamily: 'Avenir',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Colors.black,
+                            )),
                       );
                     }).toList(),
                     onChanged: (String? newValue) {
@@ -184,11 +236,23 @@ class _UploadScreenState extends State<UploadScreen> {
                     },
                     decoration: InputDecoration(
                       labelText: 'Category',
+                      labelStyle: TextStyle(
+                        fontFamily: 'Avenir',
+                        fontWeight: FontWeight.w900,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                   TextFormField(
                     decoration: InputDecoration(
                       hintText: 'Titel',
+                      hintStyle: TextStyle(
+                        fontFamily: 'Avenir',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
                     ),
                     validator: (value) {
                       if (value?.isEmpty ?? true) {
@@ -198,10 +262,15 @@ class _UploadScreenState extends State<UploadScreen> {
                     },
                     onSaved: (value) => _title = value!,
                   ),
-                  SizedBox(height: 20),
                   TextFormField(
                     decoration: InputDecoration(
                       hintText: 'Geotag',
+                      hintStyle: TextStyle(
+                        fontFamily: 'Avenir',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
                     ),
                     validator: (value) {
                       if (value == null) {
@@ -212,61 +281,121 @@ class _UploadScreenState extends State<UploadScreen> {
                     onSaved: (value) => _geotag = value,
                   ),
                   SizedBox(height: 20),
-                  ElevatedButton(
-                    child: Text('Vælg billede'),
-                    onPressed: () {
-                      /*              String url = */
-                      /*                       'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fcaucasian-smooth-skinned-teen-grimacing-hands-next-to-face-funny-white-long-sleeved-t-shirt-smiles-waving-51910820.jpg&f=1&nofb=1&ipt=5c9ff8f33a596211c84a60710642541145de2d4cc4dd0d3a8ff60323462b2792&ipo=images';
-                    saveImage(url); */
-                      getImage();
-                    },
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    child: Text('tag nyt billede'),
-                    onPressed: () {
-                      /*              String url = */
-                      /*                       'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fcaucasian-smooth-skinned-teen-grimacing-hands-next-to-face-funny-white-long-sleeved-t-shirt-smiles-waving-51910820.jpg&f=1&nofb=1&ipt=5c9ff8f33a596211c84a60710642541145de2d4cc4dd0d3a8ff60323462b2792&ipo=images';
-                    saveImage(url); */
-                      takePhoto();
-                    },
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        child: Text(
+                          'Vælg billede',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontFamily: 'Avenir',
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: const Size.fromHeight(40),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          backgroundColor: Color.fromARGB(255, 135, 89, 89),
+                          elevation: 0,
+                        ),
+                        onPressed: () {
+                          getImage();
+                        },
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        '/',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontFamily: 'Avenir',
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      ElevatedButton(
+                        child: Text(
+                          'Tag nyt billede',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontFamily: 'Avenir',
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: const Size.fromHeight(40),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          backgroundColor: Color.fromARGB(255, 135, 89, 89),
+                          elevation: 0,
+                        ),
+                        onPressed: () {
+                          takePhoto();
+                        },
+                      ),
+                    ],
                   ),
                   SizedBox(height: 20),
                   showImage(),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    child: const Text('Upload'),
-                    onPressed: () async {
-                      // Validate the form fields
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                        // Show a progress indicator while uploading
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Center(child: CircularProgressIndicator());
-                          },
-                          barrierDismissible: false,
-                        );
-                        // Call the uploadImageToFirebaseStorage
-                        String? imageUrl = await uploadImageToFirebaseStorage();
-                        // Create a Firestore document with the form data and the uploaded image URL
-                        if (imageUrl != null) {
-                          await FirebaseFirestore.instance
-                              .collection('brugbart')
-                              .add({
-                            'title': _title,
-                            'category': _category,
-                            'geotag': _geotag,
-                            'imageUrl': imageUrl,
-                          });
+                  Container(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      child: const Text(
+                        'Upload',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontFamily: 'Avenir',
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: const Size.fromHeight(40),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        backgroundColor: Color.fromARGB(255, 255, 163, 65),
+                        elevation: 0,
+                      ),
+                      onPressed: () async {
+                        // Validate the form fields
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+                          // Show a progress indicator while uploading
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Center(child: CircularProgressIndicator());
+                            },
+                            barrierDismissible: false,
+                          );
+                          // Call the uploadImageToFirebaseStorage
+                          String? imageUrl =
+                              await uploadImageToFirebaseStorage();
+                          // Create a Firestore document with the form data and the uploaded image URL
+                          if (imageUrl != null) {
+                            await FirebaseFirestore.instance
+                                .collection('brugbart')
+                                .add({
+                              'title': _title,
+                              'category': _category,
+                              'geotag': _geotag,
+                              'imageUrl': imageUrl,
+                            });
+                          }
+                          // Close the progress indicator dialog
+                          Navigator.pop(context);
+                          // Navigate back to the previous screen
+                          Navigator.pop(context);
                         }
-                        // Close the progress indicator dialog
-                        Navigator.pop(context);
-                        // Navigate back to the previous screen
-                        Navigator.pop(context);
-                      }
-                    },
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -388,7 +517,16 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Feed'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: const Text(
+          'Feed',
+          style: TextStyle(
+            color: Colors.black,
+            fontFamily: 'Avenir',
+            fontWeight: FontWeight.w900,
+          ),
+        ),
       ),
       body: ListView.builder(
         itemCount: _posts.length,
@@ -414,10 +552,10 @@ class _FeedScreenState extends State<FeedScreen> {
                   aspectRatio: 1,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
-                    child: post['imageURL'] == null
+                    child: post['imageUrl'] == null
                         ? Placeholder()
                         : Image.network(
-                            post['imageURL'] ?? '',
+                            post['imageUrl'] ?? '',
                             fit: BoxFit.cover,
                           ),
                   ),
@@ -439,9 +577,9 @@ class _FeedScreenState extends State<FeedScreen> {
       child: Text(
         title ?? '',
         style: const TextStyle(
-          fontWeight: FontWeight.bold,
           fontSize: 18,
-          fontFamily: 'Montserrat',
+          fontFamily: 'Avenir',
+          fontWeight: FontWeight.w900,
         ),
       ),
     );
@@ -453,7 +591,7 @@ class _FeedScreenState extends State<FeedScreen> {
       children: [
         const Icon(
           Icons.location_on,
-          color: Colors.redAccent,
+          color: Colors.white,
           size: 16,
         ),
         const SizedBox(width: 4),
@@ -461,7 +599,8 @@ class _FeedScreenState extends State<FeedScreen> {
           geotag ?? '',
           style: const TextStyle(
             fontSize: 16,
-            fontFamily: 'Montserrat',
+            fontFamily: 'Avenir',
+            fontWeight: FontWeight.w900,
           ),
         ),
       ],
@@ -476,7 +615,8 @@ class _FeedScreenState extends State<FeedScreen> {
         textAlign: TextAlign.center,
         style: const TextStyle(
           fontSize: 16,
-          fontFamily: 'Montserrat',
+          fontFamily: 'Avenir',
+          fontWeight: FontWeight.w900,
           color: Colors.white,
         ),
       ),
